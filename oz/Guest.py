@@ -296,6 +296,10 @@ class Guest(object):
         if self.auto is None:
             self.auto = self.get_auto_path()
 
+        self.useuefi = useuefi
+        if self.useuefi is None:
+            self.useuefi = False
+
         self.log.debug("Name: %s, UUID: %s", self.tdl.name, self.uuid)
         self.log.debug("MAC: %s, distro: %s", self.macaddr, self.tdl.distro)
         self.log.debug("update: %s, arch: %s, diskimage: %s", self.tdl.update, self.tdl.arch, self.diskimage)
@@ -502,7 +506,7 @@ class Guest(object):
             oz.ozutil.lxml_subelement(osNode, "loader", loader, {'readonly': 'yes', 'type': 'pflash'})
             oz.ozutil.lxml_subelement(osNode, "nvram", None, {'template': nvram})
         # x86_64 has legacy requirements so we check for defaults as well as for edk2
-        if self.tdl.arch in ["x86_64"] and self.config.useuefi == True:
+        if self.tdl.arch in ["x86_64"] and self.useuefi == True:
             loader, nvram = oz.ozutil.find_uefi_firmware(self.tdl.arch)
             oz.ozutil.lxml_subelement(osNode, "loader", loader, {'readonly': 'yes', 'type': 'pflash'})
             oz.ozutil.lxml_subelement(osNode, "nvram", None, {'template': nvram})
@@ -553,7 +557,7 @@ class Guest(object):
         bootDisk = oz.ozutil.lxml_subelement(devices, "disk", None, {'device': 'disk', 'type': 'file'})
         oz.ozutil.lxml_subelement(bootDisk, "target", None, {'dev': self.disk_dev, 'bus': self.disk_bus})
         oz.ozutil.lxml_subelement(bootDisk, "source", None, {'file': self.diskimage})
-        oz.ozutil.lxml_subelement(bootDisk, "driver", None, {'name': 'qemu', 'type': self.image_type, 'discard': 'unmap'})
+        oz.ozutil.lxml_subelement(bootDisk, "driver", None, {'name': 'qemu', 'type': self.image_type})
         # install disk (if any)
         if not installdev:
             installdev_list = []

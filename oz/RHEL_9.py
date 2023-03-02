@@ -19,8 +19,6 @@
 RHEL-9 installation
 """
 
-import os
-
 import oz.OzException
 import oz.RHEL_8
 import oz.ozutil
@@ -52,7 +50,7 @@ class RHEL9Guest(oz.RHEL_8.RHEL8Guest):
 
 
 def get_class(tdl, config, auto, output_disk=None, netdev=None, diskbus=None,
-              macaddress=None):
+              macaddress=None, useuefi=True):
     """
     Factory method for RHEL-9 installs.
     """
@@ -62,7 +60,7 @@ def get_class(tdl, config, auto, output_disk=None, netdev=None, diskbus=None,
         if diskbus is None:
             diskbus = 'virtio'
         return RHEL9Guest(tdl, config, auto, output_disk, netdev, diskbus,
-                          macaddress)
+                          macaddress, useuefi)
 
 
 def get_supported_string():
