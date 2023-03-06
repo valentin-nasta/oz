@@ -63,7 +63,7 @@ class RHEL8Guest(oz.RedHat.RedHatLinuxCDYumGuest):
 
 
 def get_class(tdl, config, auto, output_disk=None, netdev=None, diskbus=None,
-              macaddress=None):
+              macaddress=None, useuefi=True):
     """
     Factory method for RHEL-8 installs.
     """
@@ -73,7 +73,7 @@ def get_class(tdl, config, auto, output_disk=None, netdev=None, diskbus=None,
         if diskbus is None:
             diskbus = 'virtio'
         return RHEL8Guest(tdl, config, auto, output_disk, netdev, diskbus,
-                          macaddress)
+                          macaddress, useuefi)
 
 
 def get_supported_string():
