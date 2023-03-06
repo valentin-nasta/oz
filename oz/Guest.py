@@ -1354,6 +1354,7 @@ class CDGuest(Guest):
         self.log.debug("Modified ISO cache: %s", self.modified_iso_cache)
         self.log.debug("Output ISO path: %s", self.output_iso)
         self.log.debug("ISO content path: %s", self.iso_contents)
+        self.log.debug("Use UEFI: %s", useuefi)
 
     def _get_original_iso(self, isourl, fd, outdir, force_download):
         """

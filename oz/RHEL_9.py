@@ -44,6 +44,22 @@ class RHEL9Guest(oz.RHEL_8.RHEL8Guest):
 
         self.virtio_channel_name = 'org.fedoraproject.anaconda.log.0'
 
+    def _modify_iso(self):
+        """
+        Method to modify the ISO for autoinstallation.
+        """
+        self._copy_kickstart(os.path.join(self.iso_contents, "ks.cfg"))
+
+        initrdline = "  append initrd=initrd.img inst.ks=cdrom:/dev/cdrom:/ks.cfg"
+        if self.tdl.installtype == "url":
+            initrdline += " inst.repo=" + self.url
+        else:
+            # RHEL6 dropped this command line directive due to an Anaconda bug
+            # that has since been fixed.  Note that this used to be "method="
+            # but that has been deprecated for some time.
+            initrdline += " inst.repo=cdrom:/dev/cdrom"
+        self._modify_isolinux(initrdline)
+
     def get_auto_path(self):
         """
         Method to create the correct path to the RHEL 9 kickstart file.
