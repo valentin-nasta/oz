@@ -314,6 +314,7 @@ class Guest(object):
         self.log.debug("mousetype: %s, disk_bus: %s, disk_dev: %s", self.mousetype, self.disk_bus, self.disk_dev)
         self.log.debug("icicletmp: %s, listen_port: %d", self.icicle_tmp, self.listen_port)
         self.log.debug("console_listen_port: %s", self.console_listen_port)
+        self.log.debug("Use UEFI: %s", self.useuefi)
 
     def image_name(self):
         """
